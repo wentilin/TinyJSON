@@ -10,8 +10,10 @@
 		5437FA262551663D0089CD2B /* TinyJSONSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5437FA242551663D0089CD2B /* TinyJSONSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5437FA2D255166710089CD2B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465BE8125514CDC00A2120C /* Token.swift */; };
 		5437FA2E255166710089CD2B /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465BE8425514CF700A2120C /* Tokenizer.swift */; };
+		5437FA4125523EF90089CD2B /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465BE7E2550F17100A2120C /* Parser.swift */; };
+		5437FA46255292780089CD2B /* TinyJSONParserUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437FA45255292780089CD2B /* TinyJSONParserUnitTests.swift */; };
+		5437FA4E255293C00089CD2B /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437FA4D255293C00089CD2B /* JSONError.swift */; };
 		5465BE772550F16200A2120C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465BE762550F16200A2120C /* main.swift */; };
-		5465BE7F2550F17100A2120C /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465BE7E2550F17100A2120C /* Parser.swift */; };
 		5465BED125515F0700A2120C /* TinyJSONTokenizerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5465BED025515F0700A2120C /* TinyJSONTokenizerUnitTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,8 @@
 		5437FA222551663D0089CD2B /* TinyJSONSource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TinyJSONSource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5437FA242551663D0089CD2B /* TinyJSONSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TinyJSONSource.h; sourceTree = "<group>"; };
 		5437FA252551663D0089CD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5437FA45255292780089CD2B /* TinyJSONParserUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyJSONParserUnitTests.swift; sourceTree = "<group>"; };
+		5437FA4D255293C00089CD2B /* JSONError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
 		5465BE732550F16200A2120C /* TinyJSON */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TinyJSON; sourceTree = BUILT_PRODUCTS_DIR; };
 		5465BE762550F16200A2120C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5465BE7E2550F17100A2120C /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -69,8 +73,10 @@
 		5437FA232551663D0089CD2B /* TinyJSONSource */ = {
 			isa = PBXGroup;
 			children = (
+				5437FA4D255293C00089CD2B /* JSONError.swift */,
 				5465BE8125514CDC00A2120C /* Token.swift */,
 				5465BE8425514CF700A2120C /* Tokenizer.swift */,
+				5465BE7E2550F17100A2120C /* Parser.swift */,
 				5437FA242551663D0089CD2B /* TinyJSONSource.h */,
 				5437FA252551663D0089CD2B /* Info.plist */,
 			);
@@ -101,7 +107,6 @@
 			isa = PBXGroup;
 			children = (
 				5465BE762550F16200A2120C /* main.swift */,
-				5465BE7E2550F17100A2120C /* Parser.swift */,
 			);
 			path = TinyJSON;
 			sourceTree = "<group>";
@@ -110,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				5465BED025515F0700A2120C /* TinyJSONTokenizerUnitTests.swift */,
+				5437FA45255292780089CD2B /* TinyJSONParserUnitTests.swift */,
 				5465BED225515F0700A2120C /* Info.plist */,
 			);
 			path = TinyJSONUnitTests;
@@ -245,6 +251,8 @@
 			files = (
 				5437FA2D255166710089CD2B /* Token.swift in Sources */,
 				5437FA2E255166710089CD2B /* Tokenizer.swift in Sources */,
+				5437FA4E255293C00089CD2B /* JSONError.swift in Sources */,
+				5437FA4125523EF90089CD2B /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +260,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5465BE7F2550F17100A2120C /* Parser.swift in Sources */,
 				5465BE772550F16200A2120C /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5437FA46255292780089CD2B /* TinyJSONParserUnitTests.swift in Sources */,
 				5465BED125515F0700A2120C /* TinyJSONTokenizerUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

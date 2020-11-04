@@ -18,3 +18,9 @@ while !t.isEnd {
     
 }
 
+do {
+    let parser = try Parser("{\"person\": \"你好\"}")
+    print(try parser.parse())
+} catch {
+    print(error)
+}

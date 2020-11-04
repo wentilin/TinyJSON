@@ -19,6 +19,7 @@ public enum TokenType {
     case colon
     case comma
     case null
+    case eof
 }
 
 public struct Token {

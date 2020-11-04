@@ -7,37 +7,10 @@
 
 import Foundation
 
-public struct TokenError: Error, CustomStringConvertible {
-    public enum ErrorKind: Equatable {
-        case missDoubleQuotationMark
-        case invalidNumber
-        case invalidLiteral(_ literal: String)
-        case eof
-        case unknown
-    }
-    
-    public var kind: ErrorKind
-    
-    public var description: String {
-        switch kind {
-        case .missDoubleQuotationMark:
-            return "Token error: miss double quotation mark"
-        case .invalidNumber:
-            return "Token error: invalid number"
-        case .invalidLiteral(let literal):
-            return "Token error: invalid literal(\(literal))"
-        case .eof:
-            return "Token error: eof"
-        default:
-            return "Token error: unknown error"
-        }
-    }
-}
-
 public class Tokenizer {
     private var stack: [String] = []
     private var position: Int = 0
-    private var current: String
+    private var current: String = ""
     
     public var isEnd: Bool { return position == stack.count }
     
@@ -46,7 +19,9 @@ public class Tokenizer {
             stack.append(String(ch))
         }
         
-        current = stack[position]
+        if !stack.isEmpty {
+            current = stack[position]
+        }
     }
     
     public func next() throws -> Token {
@@ -82,7 +57,7 @@ public class Tokenizer {
                 if current == "\"" {
                     advance()
                 } else {
-                    throw TokenError(kind: .missDoubleQuotationMark)
+                    throw JSONError(.missDoubleQuotationMark)
                 }
                 
                 return .init(type: .string, value: str)
@@ -95,9 +70,9 @@ public class Tokenizer {
             } else if current == "n" {
                 return try literalToken(literal: "null", type: .null)
             } else if isEnd {
-                throw TokenError(kind: .eof)
+                return .init(type: .eof, value: "eof")
             } else {
-                throw TokenError(kind: .unknown)
+                throw JSONError(.unknown)
             }
         }
     }
@@ -127,7 +102,7 @@ public class Tokenizer {
         }
         
         guard current.isDigit else {
-            throw TokenError(kind: .invalidNumber)
+            throw JSONError(.invalidNumber)
         }
         
         if current == "0" {
@@ -145,7 +120,7 @@ public class Tokenizer {
             advance()
             
             guard current.isDigit else {
-                throw TokenError(kind: .invalidNumber)
+                throw JSONError(.invalidNumber)
             }
             
             while current.isDigit {
@@ -164,7 +139,7 @@ public class Tokenizer {
             }
             
             guard current.isDigit else {
-                throw TokenError(kind: .invalidNumber)
+                throw JSONError(.invalidNumber)
             }
             
             while current.isDigit {
@@ -174,7 +149,7 @@ public class Tokenizer {
         }
 
         guard let num = Double(numStr) else {
-            throw TokenError(kind: .invalidNumber)
+            throw JSONError(.invalidNumber)
         }
         
         return .init(type: .number, value: num)
@@ -186,7 +161,7 @@ public class Tokenizer {
             if literalChs[i] == current && !isEnd {
                 advance()
             } else {
-                throw TokenError(kind: .invalidLiteral(literal))
+                throw JSONError(.invalidLiteral(literal))
             }
         }
         
