@@ -19,8 +19,9 @@ while !t.isEnd {
 }
 
 do {
-    let parser = try Parser("{\"person\": \"你好\"}")
-    print(try parser.parse())
+    let parser = try Parser("{\"person\":\"你好\"}")
+    let value = try parser.parse()
+    print(value!.toString())
 } catch {
     print(error)
 }

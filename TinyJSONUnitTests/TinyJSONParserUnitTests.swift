@@ -70,6 +70,16 @@ class TinyJSONParserUnitTests: XCTestCase {
         _testInvalid(json: "[\"a\", nul]")
     }
     
+    func testStringtify() {
+        _testStringtify(json: "{\"person\":\"你好\"}")
+        _testStringtify(json: "{}")
+        _testStringtify(json: "[]")
+        _testStringtify(json: "[{\"person\":\"你好\"},true]")
+        _testStringtify(json: "\"你好\"")
+        _testStringtify(json: "true")
+        _testStringtify(json: "false")
+    }
+    
     @discardableResult
     func _expect(json: String, jsonError: JSONError) -> Any? {
         do {
@@ -107,6 +117,19 @@ class TinyJSONParserUnitTests: XCTestCase {
             let p = try Parser(json)
             let _ = try p.parse()
             XCTAssert(false)
+        } catch {
+            XCTAssert(true)
+        }
+    }
+    
+    func _testStringtify(json: String) {
+        do {
+            let p = try Parser(json)
+            if let val = try p.parse() {
+                XCTAssertEqual(json, val.toString())
+            } else {
+                XCTAssert(false)
+            }
         } catch {
             XCTAssert(true)
         }

@@ -16,14 +16,14 @@ public class Parser {
         currentToken = try tokenizer.next()
     }
     
-    public func parse() throws -> Any? {
+    public func parse() throws -> JSONValue? {
         return try _parseValue()
     }
     
-    private func _parseObject() throws -> [String: Any?] {
+    private func _parseObject() throws -> JSONObject {
         try _eatToken(.leftBracket)
         
-        var objectJSON: [String: Any?] = [:]
+        var objectJSON = JSONObject()
         
         while currentToken.type != .rightBracket, currentToken.type != .eof {
             let key = try _parseString()
@@ -45,9 +45,9 @@ public class Parser {
         return objectJSON
     }
     
-    private func _parseArray() throws -> [Any] {
+    private func _parseArray() throws -> JSONArray {
         try _eatToken(.leftSquareBracket)
-        var arr: [Any] = []
+        var arr = JSONArray()
         
         while currentToken.type != .rightSquareBracket, currentToken.type != .eof {
             guard let value = try _parseValue() else {
@@ -73,7 +73,7 @@ public class Parser {
         return token.value as! String
     }
     
-    private func _parseValue() throws -> Any? {
+    private func _parseValue() throws -> JSONValue? {
         switch currentToken.type {
         case .bFalse:
             try _eatToken(.bFalse)
@@ -87,11 +87,11 @@ public class Parser {
         case .number:
             let value = currentToken.value
             try _eatToken(.number)
-            return value
+            return value as? Double
         case .string:
             let value = currentToken.value
             try _eatToken(.string)
-            return value
+            return value as? String
         case .leftBracket:
             return try _parseObject()
         case .leftSquareBracket:
