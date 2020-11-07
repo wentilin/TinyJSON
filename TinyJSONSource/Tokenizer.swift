@@ -14,6 +14,9 @@ public class Tokenizer {
     
     public var isEnd: Bool { return position == stack.count }
     
+    public var line: Int { return _line_ }
+    public var charIndex: Int { return _charIndex_ }
+    
     public init(text: String) {
         for ch in text {
             stack.append(String(ch))
@@ -57,7 +60,7 @@ public class Tokenizer {
                 if current == "\"" {
                     advance()
                 } else {
-                    throw JSONError(.missDoubleQuotationMark)
+                    throw JSONError(.missDoubleQuotationMark, line: line, charIndex: charIndex)
                 }
                 
                 return .init(type: .string, value: str)
@@ -72,7 +75,7 @@ public class Tokenizer {
             } else if isEnd {
                 return .init(type: .eof, value: "eof")
             } else {
-                throw JSONError(.unknown)
+                throw JSONError(.unknown, line: line, charIndex: charIndex)
             }
         }
     }
@@ -85,7 +88,13 @@ public class Tokenizer {
             return
         }
         
+        _charIndex_ += 1
         current = stack[position]
+        
+        if current == "\n" || current == "\t" {
+            _line_ += 1
+            _charIndex_ = 0
+        }
     }
     
     private func skipWhiteSpace() {
@@ -102,7 +111,7 @@ public class Tokenizer {
         }
         
         guard current.isDigit else {
-            throw JSONError(.invalidNumber)
+            throw JSONError(.invalidNumber, line: line, charIndex: charIndex)
         }
         
         if current == "0" {
@@ -120,7 +129,7 @@ public class Tokenizer {
             advance()
             
             guard current.isDigit else {
-                throw JSONError(.invalidNumber)
+                throw JSONError(.invalidNumber, line: line, charIndex: charIndex)
             }
             
             while current.isDigit {
@@ -139,7 +148,7 @@ public class Tokenizer {
             }
             
             guard current.isDigit else {
-                throw JSONError(.invalidNumber)
+                throw JSONError(.invalidNumber, line: line, charIndex: charIndex)
             }
             
             while current.isDigit {
@@ -149,7 +158,7 @@ public class Tokenizer {
         }
 
         guard let num = Double(numStr) else {
-            throw JSONError(.invalidNumber)
+            throw JSONError(.invalidNumber, line: line, charIndex: charIndex)
         }
         
         return .init(type: .number, value: num)
@@ -161,12 +170,15 @@ public class Tokenizer {
             if literalChs[i] == current && !isEnd {
                 advance()
             } else {
-                throw JSONError(.invalidLiteral(literal))
+                throw JSONError(.invalidLiteral(literal), line: line, charIndex: charIndex)
             }
         }
         
         return Token(type: type, value: literal)
     }
+    
+    public var _line_: Int = 1
+    public var _charIndex_: Int = 1
 }
 
 extension String {

@@ -21,29 +21,33 @@ public struct JSONError: Error, CustomStringConvertible {
     }
     
     public var kind: ErrorKind
+    public var line: Int
+    public var charIndex: Int
     
-    init(_ kind: ErrorKind) {
+    init(_ kind: ErrorKind, line: Int, charIndex: Int) {
         self.kind = kind
+        self.line = line
+        self.charIndex = charIndex
     }
     
     public var description: String {
         switch kind {
         case .missDoubleQuotationMark:
-            return "JSON error: miss double quotation mark"
+            return "JSON error(\(line):\(charIndex)): miss double quotation mark"
         case .invalidNumber:
-            return "JSON error: invalid number"
+            return "JSON error(\(line):\(charIndex)): invalid number"
         case .invalidLiteral(let literal):
-            return "JSON error: invalid literal(\(literal))"
+            return "JSON error(\(line):\(charIndex)): invalid literal(\(literal))"
         case .eof:
-            return "JSON error: eof"
+            return "JSON error(\(line):\(charIndex)): eof"
         case .nullInArray:
-            return "JSON error: array contains null element"
+            return "JSON error(\(line):\(charIndex)): array contains null element"
         case .unexpect:
-            return "JSON error: unexpect token"
+            return "JSON error(\(line):\(charIndex)): unexpect token"
         case .invalid:
-            return "JSON error: invalid"
+            return "JSON error(\(line):\(charIndex)): invalid"
         default:
-            return "JSON error: unknown error"
+            return "JSON error(\(line):\(charIndex)): unknown error"
         }
     }
 }

@@ -19,7 +19,7 @@ while !t.isEnd {
 }
 
 do {
-    let parser = try Parser("{\"person\":\"你好\"}")
+    let parser = try Parser("{\n\"person\":\n\"你好}")
     let value = try parser.parse()
     print(value!.toString())
 } catch {

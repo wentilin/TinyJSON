@@ -51,7 +51,7 @@ public class Parser {
         
         while currentToken.type != .rightSquareBracket, currentToken.type != .eof {
             guard let value = try _parseValue() else {
-                throw JSONError(.nullInArray)
+                throw JSONError(.nullInArray, line: tokenizer.line, charIndex: tokenizer.charIndex)
             }
             
             arr.append(value)
@@ -99,13 +99,13 @@ public class Parser {
         case .eof:
             return nil
         default:
-            throw JSONError(.invalid)
+            throw JSONError(.invalid, line: tokenizer.line, charIndex: tokenizer.charIndex)
         }
     }
     
     private func _eatToken(_ type: TokenType) throws {
         guard currentToken.type == type else {
-            throw JSONError(.unexpect)
+            throw JSONError(.unexpect, line: tokenizer.line, charIndex: tokenizer.charIndex)
         }
         
         currentToken = try tokenizer.next()
